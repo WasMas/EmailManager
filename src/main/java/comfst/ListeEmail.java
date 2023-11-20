@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import comfst.dao.emailsDao;
+
 public class ListeEmail extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -54,17 +56,13 @@ public class ListeEmail extends HttpServlet {
 	}
 
 	public void PrintMailList(HttpServletResponse res) throws IOException {
-		SqlQuery Sql = new SqlQuery();
+		emailsDao emailsDao = new emailsDao();
 		PrintWriter out = res.getWriter();
 		listMail.clear();
 		out.println("<h1>Membres: </h1>");
 		out.println("<ul>");
 		try {
-			Sql.ExecuteQuery("SELECT * FROM emails");
-			while (Sql.Results.next()) {
-				listMail.add(Sql.Results.getString(3));
-			}
-
+			listMail = emailsDao.getEmails();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,6 +71,7 @@ public class ListeEmail extends HttpServlet {
 			String element = listMail.get(i);
 			out.println("<li>" + element + "</li>");
 		}
+		
 		save(listMail);
 		out.println("</ul>");
 	}
