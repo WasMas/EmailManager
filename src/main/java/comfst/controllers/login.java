@@ -14,16 +14,16 @@ import comfst.models.users;
 public class login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	users userModel = new users();
+	usersDao userDao = new usersDao();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		HttpSession session = req.getSession();
-		users userModel = new users();
+
 		userModel.setUsername(username);
 		userModel.setPassword(password);
-
-		usersDao userDao = new usersDao();
 
 		try {
 			if (userDao.login(userModel)) {

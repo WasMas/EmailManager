@@ -26,14 +26,12 @@ public class ListeEmail extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private String chemin = "D:/Study/JEE/Text/EmailManager.txt";
+	emails emailModel = new emails();
+	emailsDao emailDao = new emailsDao();
+
+	private String chemin = "D:/Study/JEE/EmailManager/Text/EmailManager.txt";
 	private List<String> listMail = new ArrayList<String>();
 	private String erreur;
-
-	// Constructeur
-	public ListeEmail() {
-		super();
-	}
 
 	public void init() {
 		try {
@@ -44,7 +42,6 @@ public class ListeEmail extends HttpServlet {
 			erreur = e.toString();
 			System.out.println(erreur);
 		}
-
 	}
 
 	private void save(List<String> addresses) throws IOException {
@@ -104,7 +101,7 @@ public class ListeEmail extends HttpServlet {
 	}
 
 	public Boolean MailDomainValid(String email) throws IOException {
-		String domainsPath = "D:/Study/JEE/Text/Emails.txt";
+		String domainsPath = "D:/Study/JEE/EmailManager/Text/Emails.txt";
 		String domain = email.substring(email.indexOf("@") + 1);
 		try (BufferedReader br = new BufferedReader(new FileReader(domainsPath))) {
 			String line;
@@ -124,10 +121,7 @@ public class ListeEmail extends HttpServlet {
 		String email = req.getParameter("email");
 		String action = req.getParameter("action");
 
-		emails emailModel = new emails();
 		emailModel.setAddress(email);
-
-		emailsDao emailDao = new emailsDao();
 
 		res.setContentType("text/html");
 		out.println("<HTML>");

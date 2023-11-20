@@ -13,7 +13,11 @@ import comfst.dao.usersDao;
 import comfst.models.users;
 
 public class signUp extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
+	usersDao userDao = new usersDao();
+	users userModel = new users();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -22,12 +26,9 @@ public class signUp extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
-		users userModel = new users();
 		userModel.setUsername(username);
 		userModel.setPassword(password);
 		userModel.setEmail(email);
-
-		usersDao userDao = new usersDao();
 
 		try {
 			if (userDao.signUp(userModel)) {
@@ -39,6 +40,5 @@ public class signUp extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
