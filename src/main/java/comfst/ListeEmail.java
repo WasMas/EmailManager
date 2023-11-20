@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import comfst.dao.emailsDao;
+import comfst.models.emails;
 
 public class ListeEmail extends HttpServlet {
 
@@ -71,7 +72,7 @@ public class ListeEmail extends HttpServlet {
 			String element = listMail.get(i);
 			out.println("<li>" + element + "</li>");
 		}
-		
+
 		save(listMail);
 		out.println("</ul>");
 	}
@@ -118,24 +119,31 @@ public class ListeEmail extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-		SqlQuery Sql = new SqlQuery();
+		PrintWriter out = res.getWriter();
+
 		String email = req.getParameter("email");
 		String action = req.getParameter("action");
-		PrintWriter out = res.getWriter();
+
+		emails emailModel = new emails();
+		emailModel.setAddress(email);
+
+		emailsDao emailDao = new emailsDao();
+
 		res.setContentType("text/html");
 		out.println("<HTML>");
 		out.println("<head><title>Gerer mail</title></head>");
 		out.println("<body>");
+
 		if ("subscribe".equals(action)) {
 			if (listMail.contains(email) || !MailDomainValid(email)) {
 				out.println("Email Deja Utilisé/ Invalide!");
 			} else {
 				try {
-					Sql.ExecuteQuery("INSERT INTO emails (address) VALUES ('" + email + "')");
+					emailDao.addEmail(emailModel);
+					out.println("l adresse email '" + email + "'  " + "est ajoutee avec succes");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				out.println("l adresse email '" + email + "'  " + "est ajoutee avec succes");
 			}
 		}
 
@@ -144,14 +152,14 @@ public class ListeEmail extends HttpServlet {
 				out.println("Email Pas trouvé!");
 			} else {
 				try {
-					Sql.ExecuteQuery("DELETE FROM emails WHERE address='" + email + "'");
+					emailDao.removeEmail(emailModel);
+					out.println("l adresse email '" + email + "'  " + "est supprimer avec succes");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-
-				out.println("l adresse email '" + email + "'  " + "est supprimer avec succes");
 			}
 		}
+
 		out.println("<hr>");
 		PrintMailList(res);
 		out.println("<hr>");

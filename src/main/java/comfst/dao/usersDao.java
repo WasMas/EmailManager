@@ -6,6 +6,7 @@ import comfst.SqlQuery;
 import comfst.models.users;
 
 public class usersDao {
+	SqlQuery sql = new SqlQuery();
 
 	public boolean login(users user) throws SQLException {
 		String username = user.getUsername();
@@ -22,7 +23,7 @@ public class usersDao {
 		String username = user.getUsername();
 		String password = user.getPassword();
 		String email = user.getEmail();
-		SqlQuery sql = new SqlQuery();
+
 		if (usernameExist(username)) {
 			return false;
 		} else {
@@ -35,7 +36,6 @@ public class usersDao {
 	public Boolean UserExist(String username, String password) throws SQLException {
 		String dbUsername;
 		String dbPassword;
-		SqlQuery sql = new SqlQuery();
 
 		sql.ExecuteQuery("SELECT username, password FROM users where username='" + username + "'");
 
@@ -52,7 +52,7 @@ public class usersDao {
 	}
 
 	private Boolean usernameExist(String username) throws SQLException {
-		SqlQuery sql = new SqlQuery();
+
 		sql.ExecuteQuery("SELECT username FROM users where username='" + username + "'");
 		if (sql.Results.next()) {
 			return true;

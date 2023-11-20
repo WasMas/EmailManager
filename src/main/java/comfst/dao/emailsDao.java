@@ -8,19 +8,22 @@ import comfst.SqlQuery;
 import comfst.models.emails;
 
 public class emailsDao {
+	SqlQuery Sql = new SqlQuery();
 
-	public Boolean addEmail(emails email) {
+	public void addEmail(emails emailModel) throws SQLException {
+		String email = emailModel.getAddress();
+		Sql.Execute("INSERT INTO emails (address) VALUES ('" + email + "')");
 
-		return true;
 	}
 
-	public Boolean removeEmail() {
-		return true;
+	public void removeEmail(emails emailModel) throws SQLException {
+		String email = emailModel.getAddress();
+		Sql.Execute("DELETE FROM emails WHERE address='" + email + "'");
+
 	}
 
 	public List<String> getEmails() throws SQLException {
 		List<String> listMail = new ArrayList<String>();
-		SqlQuery Sql = new SqlQuery();
 		Sql.ExecuteQuery("SELECT * FROM emails");
 		while (Sql.Results.next()) {
 			listMail.add(Sql.Results.getString(3));
