@@ -1,9 +1,8 @@
-package comfst;
+package comfst.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,29 +11,26 @@ import javax.servlet.http.HttpSession;
 import comfst.dao.usersDao;
 import comfst.models.users;
 
-public class signUp extends HttpServlet {
+public class login extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-		HttpSession session = req.getSession();
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		String email = req.getParameter("email");
-
+		HttpSession session = req.getSession();
 		users userModel = new users();
 		userModel.setUsername(username);
 		userModel.setPassword(password);
-		userModel.setEmail(email);
 
 		usersDao userDao = new usersDao();
 
 		try {
-			if (userDao.signUp(userModel)) {
+			if (userDao.login(userModel)) {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				System.out.println("UserName Exists");
+				System.out.println("Maheyesh");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

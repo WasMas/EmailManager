@@ -1,4 +1,4 @@
-package comfst;
+package comfst.controllers;
 
 import java.io.IOException;
 

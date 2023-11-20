@@ -10,7 +10,7 @@
 
 	<servlet>
 		<servlet-name>ListeEmail</servlet-name>
-		<servlet-class>comfst.ListeEmail</servlet-class>
+		<servlet-class>comfst.controllers.ListeEmail</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ListeEmail</servlet-name>
@@ -19,7 +19,7 @@
 
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>comfst.login</servlet-class>
+		<servlet-class>comfst.controllers.login</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
@@ -28,7 +28,7 @@
 
 	<servlet>
 		<servlet-name>signUp</servlet-name>
-		<servlet-class>comfst.signUp</servlet-class>
+		<servlet-class>comfst.controllers.signUp</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>signUp</servlet-name>
@@ -37,7 +37,7 @@
 	
 	<servlet>
 		<servlet-name>logout</servlet-name>
-		<servlet-class>comfst.logout</servlet-class>
+		<servlet-class>comfst.controllers.logout</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>logout</servlet-name>

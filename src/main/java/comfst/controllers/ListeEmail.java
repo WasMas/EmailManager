@@ -1,4 +1,4 @@
-package comfst;
+package comfst.controllers;
 
 import javax.servlet.http.HttpServlet;
 
