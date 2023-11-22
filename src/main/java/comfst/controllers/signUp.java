@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import comfst.error;
 import comfst.dao.usersDao;
 import comfst.models.users;
 
@@ -26,6 +27,8 @@ public class signUp extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
+		error error = new error();
+		
 		userModel.setUsername(username);
 		userModel.setPassword(password);
 		userModel.setEmail(email);
@@ -35,7 +38,7 @@ public class signUp extends HttpServlet {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				System.out.println("UserName Exists");
+				error.errorMessage(req, res,"Nom d'utilisateur deja utilisé");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

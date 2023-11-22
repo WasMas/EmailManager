@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import comfst.error;
 import comfst.dao.emailsDao;
 import comfst.models.emails;
 
@@ -26,6 +27,7 @@ public class ListeEmail extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	error error = new error();
 	emails emailModel = new emails();
 	emailsDao emailDao = new emailsDao();
 
@@ -117,7 +119,7 @@ public class ListeEmail extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		PrintWriter out = res.getWriter();
-
+		
 		String email = req.getParameter("email");
 		String action = req.getParameter("action");
 
@@ -130,7 +132,7 @@ public class ListeEmail extends HttpServlet {
 
 		if ("subscribe".equals(action)) {
 			if (listMail.contains(email) || !MailDomainValid(email)) {
-				out.println("Email Deja Utilisé/ Invalide!");
+				error.errorMessage(req, res,"Email Deja Utilisé/ Invalide!");
 			} else {
 				try {
 					emailDao.addEmail(emailModel);
@@ -143,7 +145,7 @@ public class ListeEmail extends HttpServlet {
 
 		if ("unsubscribe".equals(action)) {
 			if (!listMail.contains(email)) {
-				out.println("Email Pas trouvé!");
+				error.errorMessage(req, res,"Email Pas trouvé!");
 			} else {
 				try {
 					emailDao.removeEmail(emailModel);

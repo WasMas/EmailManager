@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Error !</h1>
+	<h2 style="text-align: center">
+		<%
+		String error = (String) session.getAttribute("error");
+		out.println("Erreur:  " + error );
+		%>
+	</h2>
 </body>
 </html>

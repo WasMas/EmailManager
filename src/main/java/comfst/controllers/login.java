@@ -8,18 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import comfst.error;
 import comfst.dao.usersDao;
 import comfst.models.users;
 
 public class login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	error error = new error();
 	users userModel = new users();
 	usersDao userDao = new usersDao();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
+		
 		HttpSession session = req.getSession();
 
 		userModel.setUsername(username);
@@ -30,7 +34,7 @@ public class login extends HttpServlet {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				System.out.println("Maheyesh");
+				error.errorMessage(req, res,"Nom d'utilisateur ou mot de passe incorrect");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
