@@ -15,7 +15,8 @@ import comfst.models.users;
 public class login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	int loginAttempts = 3;
 	error error = new error();
 	users userModel = new users();
 	usersDao userDao = new usersDao();
@@ -23,7 +24,7 @@ public class login extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		
+
 		HttpSession session = req.getSession();
 
 		userModel.setUsername(username);
@@ -34,11 +35,15 @@ public class login extends HttpServlet {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				error.errorMessage(req, res,"Nom d'utilisateur ou mot de passe incorrect");
+				if (loginAttempts !=0) {
+					loginAttempts--;
+					error.errorMessage(req, res, "Nom d'utilisateur ou mot de passe incorrect, tentatives de connexion restantes: "+loginAttempts);
+				}
+				else
+					error.errorMessage(req, res, "Aucune tentative de connexion restante, revenez plus tard");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
