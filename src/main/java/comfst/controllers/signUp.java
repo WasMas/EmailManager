@@ -28,7 +28,7 @@ public class signUp extends HttpServlet {
 		String email = req.getParameter("email");
 
 		error error = new error();
-		
+
 		userModel.setUsername(username);
 		userModel.setPassword(password);
 		userModel.setEmail(email);
@@ -38,7 +38,7 @@ public class signUp extends HttpServlet {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				error.errorMessage(req, res,"Nom d'utilisateur deja utilisé");
+				error.errorMessage(req, res, "Nom d'utilisateur deja utilisé");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

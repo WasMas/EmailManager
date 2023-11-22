@@ -35,11 +35,12 @@ public class login extends HttpServlet {
 				session.setAttribute("username", userModel.getUsername());
 				res.sendRedirect("ListeEmail");
 			} else {
-				if (loginAttempts !=0) {
+				if (loginAttempts != 0) {
 					loginAttempts--;
-					error.errorMessage(req, res, "Nom d'utilisateur ou mot de passe incorrect, tentatives de connexion restantes: "+loginAttempts);
-				}
-				else
+					error.errorMessage(req, res,
+							"Nom d'utilisateur ou mot de passe incorrect, tentatives de connexion restantes: "
+									+ loginAttempts);
+				} else
 					error.errorMessage(req, res, "Aucune tentative de connexion restante, revenez plus tard");
 			}
 		} catch (SQLException e) {
